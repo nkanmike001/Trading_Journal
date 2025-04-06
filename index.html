@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trade Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            margin: 0;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .new-trade-btn, .export-btn, .import-btn {
+            display: inline-block;
+            margin: 0 10px 30px;
+            padding: 15px 40px;
+            font-size: 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .export-btn {
+            background-color: #3498db;
+        }
+
+        .import-btn {
+            background-color: #e67e22;
+        }
+
+        .new-trade-btn:hover, .export-btn:hover, .import-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .export-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .import-btn:hover {
+            background-color: #d35400;
+        }
+
+        #tradeForm {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #tradeForm input, #tradeForm select {
+            padding: 10px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 220px;
+            transition: border-color 0.3s;
+        }
+
+        #tradeForm input:focus, #tradeForm select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        #tradeForm button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #tradeForm button:hover {
+            background-color: #2980b9;
+        }
+
+        .chart-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        #dateFilter {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            margin-right: 15px;
+            transition: border-color 0.3s;
+        }
+
+        #dateFilter:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        #winRate, #totalGain {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 16px;
+            margin-left: 15px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 800px;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+            transition: background-color 0.3s;
+        }
+
+        .calendar-container {
+            width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e0e0e0;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .calendar-day:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .calendar-day.positive {
+            background-color: #e6ffe6;
+            color: #2ecc71;
+            border: 2px solid #2ecc71;
+        }
+
+        .calendar-day.negative {
+            background-color: #ffe6e6;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        .calendar-day span {
+            display: block;
+            font-size: 14px;
+            margin: 3px 0;
+        }
+
+        .calendar-day span:first-child {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .photo-icon {
+            width: 20px;
+            height: 20px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Octicons-camera.svg/1024px-Octicons-camera.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+
+        .trade-photo {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .trade-photo:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Trading Journal</h1>
+    
+    <button class="new-trade-btn" onclick="createNewTrade()">
+        New Trade <span class="photo-icon"></span>
+    </button>
+    <button class="export-btn" onclick="exportTrades()">Export Trades</button>
+    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importTrades(event)">
+    <button class="import-btn" onclick="document.getElementById('importFile').click()">Import Trades</button>
+    
+    <div id="tradeForm" style="display: none;">
+        <form id="newTradeForm">
+            <label for="tradeDate">Date:</label>
+            <input type="date" id="tradeDate" required><br><br>
+            <label for="pair">Pair:</label>
+            <input type="text" id="pair" required><br><br>
+            <label for="outcome">Outcome:</label>
+            <select id="outcome" required>
+                <option value="">Select outcome</option>
+                <option value="win">Win (+3%)</option>
+                <option value="loss">Loss (-1%)</option>
+            </select><br><br>
+            <label for="tradePhoto">Upload Photo:</label>
+            <input type="file" id="tradePhoto" accept="image/*"><br><br>
+            <button type="submit">Submit Trade</button>
+        </form>
+    </div>
+
+    <div class="chart-container">
+        <div>
+            <label for="dateFilter">Filter by Date:</label>
+            <input type="date" id="dateFilter" onchange="applyFilter()">
+            <span id="winRate"></span>
+            <span id="totalGain"></span>
+        </div>
+        <canvas id="growthChart" width="800" height="400"></canvas>
+    </div>
+
+    <h2>Daily Cumulative Gain</h2>
+    <div class="calendar-container">
+        <div id="calendarHeader" class="calendar-header"></div>
+        <div class="calendar" id="dailyGain"></div>
+    </div>
+
+    <h2>Trading Log</h2>
+    <table id="tradeLog">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pair</th>
+                <th>Outcome</th>
+                <th>Percentage</th>
+                <th>Photo</th>
+            </tr>
+        </thead>
+        <tbody id="tradeLogBody"></tbody>
+    </table>
+
+    <div id="modal" class="modal">
+        <img id="expandedPhoto" src="">
+    </div>
+
+    <script>
+        let trades = [];
+        let filteredTrades = [];
+        
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        const growthChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: '% Growth',
+                    data: [],
+                    fill: true,
+                    backgroundColor: 'rgba(173, 216, 230, 0.2)',
+                    borderColor: 'lightblue',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: '% Growth' } },
+                    x: { title: { display: true, text: 'Date' } }
+                }
+            }
+        });
+
+        // Load trades from localStorage
+        function loadTrades() {
+            const storedTrades = localStorage.getItem('trades');
+            if (storedTrades) {
+                trades = JSON.parse(storedTrades);
+                applyFilter();
+            }
+        }
+
+        // Save trades to localStorage
+        function saveTrades() {
+            localStorage.setItem('trades', JSON.stringify(trades));
+        }
+
+        function createNewTrade() {
+            document.getElementById('tradeForm').style.display = 'block';
+            document.getElementById('newTradeForm').onsubmit = function(e) {
+                e.preventDefault();
+                const date = document.getElementById('tradeDate').value;
+                const pair = document.getElementById('pair').value;
+                const outcome = document.getElementById('outcome').value;
+                const photo = document.getElementById('tradePhoto').files[0];
+
+                let percentage = outcome === 'win' ? 3 : -1;
+                const photoUrl = photo ? URL.createObjectURL(photo) : null;
+                const trade = { date, pair, outcome, percentage, photoUrl };
+                
+                trades.push(trade);
+                saveTrades();
+                
+                applyFilter();
+                document.getElementById('tradeForm').style.display = 'none';
+                this.reset();
+            };
+        }
+
+        function applyFilter() {
+            const filterDate = document.getElementById('dateFilter').value;
+            filteredTrades = filterDate ? 
+                trades.filter(trade => trade.date === filterDate) : 
+                [...trades];
+                
+            updateChart();
+            updateTradeLog();
+            updateDailyGain();
+            updateWinRate();
+            updateTotalGain();
+        }
+
+        function updateChart() {
+            const sortedTrades = [...filteredTrades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            growthChart.data.labels = sortedTrades.map(trade => trade.date);
+            growthChart.data.datasets[0].data = sortedTrades.reduce((acc, trade) => {
+                const lastValue = acc.length > 0 ? acc[acc.length - 1] : 0;
+                return [...acc, lastValue + trade.percentage];
+            }, []);
+            growthChart.update();
+        }
+
+        function updateTradeLog() {
+            const tbody = document.getElementById('tradeLogBody');
+            tbody.innerHTML = '';
+            filteredTrades.sort((a, b) => new Date(a.date) - new Date(b.date))
+                .forEach(trade => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${trade.date}</td>
+                        <td>${trade.pair}</td>
+                        <td>${trade.outcome}</td>
+                        <td>${trade.percentage > 0 ? '+' : ''}${trade.percentage}%</td>
+                        <td>${trade.photoUrl ? `<img src="${trade.photoUrl}" alt="Trade Photo" class="trade-photo" onclick="showExpandedPhoto('${trade.photoUrl}')">` : 'No Photo'}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+        }
+
+        function updateDailyGain() {
+            const calendar = document.getElementById('dailyGain');
+            const calendarHeader = document.getElementById('calendarHeader');
+            calendar.innerHTML = '';
+            
+            const latestTrade = trades.sort((a, b) => new Date(b.date) - new Date(a.date))[0] || { date: new Date().toISOString().split('T')[0] };
+            const latestDate = new Date(latestTrade.date);
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            calendarHeader.textContent = `${monthNames[latestDate.getMonth()]} ${latestDate.getFullYear()}`;
+
+            const dailyTotals = {};
+            filteredTrades.forEach(trade => {
+                dailyTotals[trade.date] = (dailyTotals[trade.date] || 0) + trade.percentage;
+            });
+            
+            const monthStart = new Date(latestDate.getFullYear(), latestDate.getMonth(), 1);
+            const daysInMonth = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 0).getDate();
+            const startDay = monthStart.getDay();
+
+            for (let i = 0; i < startDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendar.appendChild(emptyDay);
+            }
+
+            let runningTotal = 0;
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${latestDate.getFullYear()}-${String(latestDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                if (dailyTotals[dateStr]) {
+                    runningTotal += dailyTotals[dateStr];
+                }
+                
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `calendar-day ${runningTotal > 0 ? 'positive' : runningTotal < 0 ? 'negative' : ''}`;
+                dayDiv.innerHTML = `
+                    <span>${day}</span>
+                    <span>${runningTotal > 0 ? `+${runningTotal}%` : (runningTotal < 0 ? `${runningTotal}%` : '')}</span>
+                `;
+                dayDiv.onclick = () => {
+                    document.getElementById('dateFilter').value = dateStr;
+                    applyFilter();
+                };
+                calendar.appendChild(dayDiv);
+            }
+        }
+
+        function updateWinRate() {
+            const wins = filteredTrades.filter(trade => trade.outcome === 'win').length;
+            const total = filteredTrades.length;
+            const winRate = total > 0 ? ((wins / total) * 100).toFixed(2) : 0;
+            document.getElementById('winRate').textContent = `Win Rate: ${winRate}%`;
+        }
+
+        function updateTotalGain() {
+            const totalGain = filteredTrades.reduce((sum, trade) => sum + trade.percentage, 0);
+            document.getElementById('totalGain').textContent = `Total Gain: ${totalGain > 0 ? '+' : ''}${totalGain}%`;
+        }
+
+        function showExpandedPhoto(src) {
+            const modal = document.getElementById('modal');
+            const expandedPhoto = document.getElementById('expandedPhoto');
+            expandedPhoto.src = src;
+            modal.style.display = 'flex';
+            modal.onclick = () => modal.style.display = 'none';
+        }
+
+        function exportTrades() {
+            const exportData = trades.map(trade => ({
+                date: trade.date,
+                pair: trade.pair,
+                outcome: trade.outcome,
+                percentage: trade.percentage,
+                photoUrl: trade.photoUrl ? 'photo_uploaded' : null
+            }));
+            const json = JSON.stringify(exportData);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'trades_export.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importTrades(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const importedData = JSON.parse(e.target.result);
+                trades = importedData.map(trade => ({
+                    ...trade,
+                    photoUrl: trade.photoUrl === 'photo_uploaded' ? null : trade.photoUrl
+                }));
+                saveTrades();
+                applyFilter();
+            };
+            reader.readAsText(file);
+        }
+
+        // Load trades on page load
+        loadTrades();
+    </script>
+</body>
+</html>
