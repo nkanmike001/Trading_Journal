@@ -1,312 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-        }
-        .sidebar {
-            background: linear-gradient(180deg, #1a202c 0%, #2d3748 100%);
-            color: white;
-            height: 100vh;
-            width: 250px;
-            position: fixed;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-        .sidebar h2 {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .sidebar a {
-            color: #a0aec0;
-            display: block;
-            padding: 10px 0;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .sidebar a:hover {
-            color: #ffffff;
-        }
-        .main-content {
-            margin-left: 270px;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: #2d3748;
-        }
-        .metric {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2d3748;
-        }
-        .trend-up {
-            color: #48bb78;
-        }
-        .trend-down {
-            color: #f56565;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Trading Platform</h2>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#trades">Trades</a>
-        <a href="#market">Market</a>
-        <a href="#form">Feedback</a>
+<!-- Navigation -->
+<nav class="container mx-auto px-4 py-4 flex justify-center space-x-4">
+    <button onclick="scrollToSection('progress-chart')" class="nav-button bg-green-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md">Trading Progress</button>
+    <button onclick="scrollToSection('win-rate')" class="nav-button bg-green-500 text-white px-6 py-3 rounded-lg font-semibold shadow-md">Win Rate Gauge</button>
+</nav>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8 flex-grow">
+    <!-- Trading Progress Chart -->
+    <section id="progress-chart" class="mb-12 chart-container bg-gray-800 rounded-lg p-6 shadow-lg">
+        <h2 class="text-2xl font-semibold text-green-400 mb-4">Trading Progress (Area Chart)</h2>
+        <div class="iframe-wrapper">
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=1262233150&format=interactive" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="mt-4 text-gray-400">View your trading performance over time with this interactive area chart.</p>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=1262233150&format=interactive" target="_blank" class="text-green-400 hover:underline">Open in new tab</a>
+    </section>
+
+    <!-- Win Rate Gauge -->
+    <section id="win-rate" class="mb-12 chart-container bg-gray-800 rounded-lg p-6 shadow-lg">
+        <h2 class="text-2xl font-semibold text-green-400 mb-4">Win Rate Gauge</h2>
+        <div class="iframe-wrapper">
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=611455411&format=interactive" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="mt-4 text-gray-400">Monitor your trading success with this dynamic win rate gauge.</p>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=611455411&format=interactive" target="_blank" class="text-green-400 hover:underline">Open in new tab</a>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 py-4">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>&copy; 2025 Trading Dashboard. All rights reserved.</p>
     </div>
+</footer>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <header class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Welcome to Your Trading Dashboard</h1>
-            <p class="text-gray-600">Monitor your portfolio, track trades, and stay updated with market trends.</p>
-        </header>
-
-        <!-- Metrics Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Portfolio Value -->
-            <div class="card">
- ryzy margin: 0 auto;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Trading Platform</h2>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#trades">Trades</a>
-        <a href="#market">Market</a>
-        <a href="#form">Feedback</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <header class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Welcome to Your Trading Dashboard</h1>
-            <p class="text-gray-600">Monitor your portfolio, track trades, and stay updated with market trends.</p>
-        </header>
-
-        <!-- Metrics Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Portfolio Value -->
-            <div class="card">
-                <h3>Portfolio Value</h3>
-                <p class="metric" id="portfolioValue">$0.00</p>
-                <p id="portfolioTrend" class="trend-up">+0% this week</p>
-            </div>
-            <!-- Total Trades -->
-            <div class="card">
-                <h3>Total Trades</h3>
-                <p class="metric" id="totalTrades">0</p>
-                <p class="text-gray-500">This month</p>
-            </div>
-            <!-- Market Trend -->
-            <div class="card">
-                <h3>Market Trend</h3>
-                <p class="metric" id="marketTrend">0%</p>
-                <p class="text-gray-500">S&P 500 Today</p>
-            </div>
-        </div>
-
-        <!-- Chart Section -->
-        <div class="card">
-            <h3>Portfolio Performance</h3>
-            <canvas id="portfolioChart" height="100"></canvas>
-        </div>
-
-        <!-- Recent Trades -->
-        <div class="card">
-            <h3>Recent Trades</h3>
-            <table class="w-full text-left" id="tradesTable">
-                <thead>
-                    <tr class="text-gray-600">
-                        <th class="py-2">Asset</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Price</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody id="tradesBody">
-                    <!-- Populated dynamically -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Google Form Embed -->
-        <div class="card form-container" id="form">
-            <h3>Feedback Form</h3>
-            <iframe src="https://forms.gle/zrrTQtjoRD3UXygG8" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
-        </div>
-    </div>
-
-    <!-- Google API Client Library -->
-    <script src="https://apis.google.com/js/api.js"></script>
-    <!-- Chart.js Script for Visualization -->
-    <script>
-        // Google Sheets API Setup
-        const CLIENT_ID = 'YOUR_CLIENT_ID'; // Replace with your OAuth 2.0 Client ID
-        const API_KEY = 'AIzaSyCXSBQGcjcgaySeUWNDp4K3XRmr7Oee24A';
-        const SPREADSHEET_ID = '1FJxL_pXIHjM5FxZBsUzTOEkyXMTN4E386ht7ZWnUak4';
-        const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-        const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
-
-        function initGAPI() {
-            gapi.load('client:auth2', () => {
-                gapi.client.init({
-                    apiKey: API_KEY,
-                    clientId: CLIENT_ID,
-                    discoveryDocs: DISCOVERY_DOCS,
-                    scope: SCOPES
-                }).then(() => {
-                    fetchSheetData();
-                }).catch(err => console.error('Error initializing GAPI:', err));
-            });
-        }
-
-        async function fetchSheetData() {
-            try {
-                // Fetch portfolio metrics (Assuming Sheet1!A1:C3 for portfolio value, trades, market trend)
-                const response = await gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: 'Sheet1!A1:C3' // Adjust range based on your sheet structure
-                });
-
-                const values = response.result.values || [];
-                if (values.length > 0) {
-                    // Update Portfolio Value
-                    const portfolioValue = values[0][1] || '0';
-                    const portfolioTrend = values[0][2] || '0%';
-                    document.getElementById('portfolioValue').textContent = `$${parseFloat(portfolioValue).toFixed(2)}`;
-                    document.getElementById('portfolioTrend').textContent = portfolioTrend;
-                    document.getElementById('portfolioTrend').className = portfolioTrend.includes('-') ? 'trend-down' : 'trend-up';
-
-                    // Update Total Trades
-                    document.getElementById('totalTrades').textContent = values[1][1] || '0';
-
-                    // Update Market Trend
-                    const marketTrend = values[2][1] || '0%';
-                    document.getElementById('marketTrend').textContent = marketTrend;
-                    document.getElementById('marketTrend').className = marketTrend.includes('-') ? 'trend-down metric' : 'trend-up metric';
-                }
-
-                // Fetch recent trades (Assuming Sheet1!A5:E10 for trades)
-                const tradesResponse = await gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: 'Sheet1!A5:E10' // Adjust range based on your sheet structure
-                });
-
-                const trades = tradesResponse.result.values || [];
-                const tradesBody = document.getElementById('tradesBody');
-                tradesBody.innerHTML = '';
-                trades.forEach(trade => {
-                    const [asset, type, amount, price, date] = trade;
-                    const row = `
-                        <tr>
-                            <td class="py-2">${asset || 'N/A'}</td>
-                            <td>${type || 'N/A'}</td>
-                            <td>${amount || '0'}</td>
-                            <td>$${parseFloat(price || '0').toFixed(2)}</td>
-                            <td>${date || 'N/A'}</td>
-                        </tr>
-                    `;
-                    tradesBody.innerHTML += row;
-                });
-
-                // Fetch portfolio performance for chart (Assuming Sheet1!A12:B18 for months and values)
-                const chartResponse = await gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: 'Sheet1!A12:B18' // Adjust range based on your sheet structure
-                });
-
-                const chartData = chartResponse.result.values || [];
-                const labels = chartData.map(row => row[0]);
-                const data = chartData.map(row => parseFloat(row[1]));
-
-                // Update Chart
-                const ctx = document.getElementById('portfolioChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels.length ? labels : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Portfolio Value',
-                            data: data.length ? data : [100000, 105000, 110000, 108000, 120000, 125430],
-                            borderColor: '#48bb78',
-                            backgroundColor: 'rgba(72, 187, 120, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: false,
-                                title: {
-                                    display: true,
-                                    text: 'Value ($)'
-                                }
-                            }
-                        }
-                    }
-                });
-            } catch (err) {
-                console.error('Error fetching sheet data:', err);
-            }
-        }
-
-        // Initialize Google API
-        window.onload = initGAPI;
-    </script>
-
-    <!-- Google Maps API (Optional for future use) -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXSBQGcjcgaySeUWNDp4K3XRmr7Oee24A&callback=initMap"></script>
-    <script>
-        function initMap() {
-            // Placeholder for Google Maps initialization if needed
-        }
-    </script>
-</body>
-        </html>
+<!-- JavaScript for Smooth Scrolling -->
+<script>
+    function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+            </script>
