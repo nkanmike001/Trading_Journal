@@ -1,5 +1,5 @@
-
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,11 +24,6 @@
     p {
       font-size: 1.1em;
       color: #ccc;
-    }
-    .charts {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 40px;
     }
     iframe {
       width: 100%;
@@ -65,19 +60,30 @@
       padding: 10px;
       margin-bottom: 40px;
     }
+    .chart-container {
+      margin-bottom: 40px;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>My Trading Dashboard</h1>
     <p>Visual insights into performance and consistency</p>
-  </header>  <div class="button-container">
+  </header>
+
+  <div class="button-container">
     <a href="https://forms.gle/zrrTQtjoRD3UXygG8" class="add-trade-button" target="_blank">Add New Trade</a>
-  </div>  <section class="table-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRo5L5aKsR76yOaCfpZKZAz5kXtt3sFJoJFXOqaTj5Wi7mgUiyR-sKUYM7VUKT9eoZpmyFY9X0EtL5o/pubhtml" width="100%" height="600"></iframe>
-  </section>  <section class="charts">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=611455411&format=interactive" width="100%" height="600"></iframe>
-  </section>  <section class="table-container">
+  </div>
+
+  <section class="chart-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=198884767&format=interactive"></iframe>
+  </section>
+
+  <section class="chart-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubchart?oid=611455411&format=interactive"></iframe>
+  </section>
+
+  <section class="table-container">
     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubhtml?widget=true&amp;headers=false" width="100%" height="600"></iframe>
   </section>
 </body>
