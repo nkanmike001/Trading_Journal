@@ -1,78 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trading Performance Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #1e1e2f, #3a3a5a);
-      color: white;
-      padding: 20px;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 1.1em;
-      color: #ccc;
-    }
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-    }
-    .add-trade-button {
-      display: inline-block;
-      background-color: #00b894;
-      color: white;
-      padding: 12px 20px;
-      font-size: 1em;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: background-color 0.3s ease;
-    }
-    .add-trade-button:hover {
-      background-color: #019875;
-    }
-    .button-container {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .table-container {
-      overflow-x: auto;
-      background-color: white;
-      border-radius: 10px;
-      padding: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Journey into AI Prompting - 2-Hour Masterclass</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display and Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #2c5282);
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .header-bg {
+            background: url('https://images.unsplash.com/photo-1538370965046-79c0d6907d47?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            position: relative;
+            z-index: 1;
+        }
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: #fefcbf;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-glow {
+            background: linear-gradient(45deg, #f59e0b, #fefcbf);
+            color: #1e3a8a;
+            transition: all 0.3s ease;
+        }
+        .btn-glow:hover {
+            background: linear-gradient(45deg, #fefcbf, #f59e0b);
+            transform: scale(1.05);
+        }
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            background: linear-gradient(45deg, #128C7E, #25D366);
+            transform: scale(1.05);
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>My Trading Dashboard</h1>
-    <p>Visual insights into performance and consistency</p>
-  </header>
+<body class="relative">
+    <!-- Stars Animation -->
+    <div class="stars" id="stars"></div>
 
-  <div class="button-container">
-    <a href="https://forms.gle/zrrTQtjoRD3UXygG8" class="add-trade-button" target="_blank">Add New Trade</a>
-  </div>
+    <!-- Header Section -->
+    <header class="header-bg py-20 text-center">
+        <h1 class="section-title text-5xl md:text-6xl font-bold mb-4 animate__animated animate__fadeIn">A Journey into the Art of AI Prompting</h1>
+        <p class="text-xl md:text-2xl mb-8 animate__animated animate__fadeIn animate__delay-1s">A 2-Hour Masterclass to Unlock the Magic of AI</p>
+        <a href="#enroll" class="btn-glow text-lg font-semibold py-3 px-8 rounded-full shadow-lg animate__animated animate__pulse animate__infinite">Join the Adventure!</a>
+    </header>
 
-  <section class="table-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4kawPWd3ibng5OSqu5ZZNzWbsNwPOEu49D82Xf3pPaFjmXSMJnP-zAvwFHNTCbghr-P_z6nJhgSto/pubhtml?widget=true&amp;headers=false" width="100%" height="600"></iframe>
-  </section>
+    <!-- Course Overview Section -->
+    <section class="py-16 px-4 md:px-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="section-title text-4xl mb-6">Why Embark on This Quest?</h2>
+            <p class="text-lg mb-8">Step into a world where your words wield power. In just 2 hours, this enchanting masterclass will transform you into a master of AI prompting, crafting clear, creative, and captivating instructions for tools like Grok 3. Whether you dream of spinning stories, solving problems, or sparking ideas, this course is your key to unlocking AI’s boundless potential.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card p-6 rounded-xl text-center">
+                    <h3 class="text-xl font-semibold text-fefcbf mb-2">Beginner-Friendly</h3>
+                    <p>No experience needed—just curiosity and a device!</p>
+                </div>
+                <div class="card p-6 rounded-xl text-center">
+                    <h3 class="text-xl font-semibold text-fefcbf mb-2">Hands-On Magic</h3>
+                    <p>Practice real prompts and see AI come alive.</p>
+                </div>
+                <div class="card p-6 rounded-xl text-center">
+                    <h3 class="text-xl font-semibold text-fefcbf mb-2">Real-World Skills</h3>
+                    <p>Learn to use AI for study, work, and creativity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Outline Section -->
+    <section class="py-16 px-4 md:px-20 bg-gray-900 bg-opacity-50">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="section-title text-4xl text-center mb-10">The Enchanted Journey: Course Outline</h2>
+            <div class="space-y-8">
+                <!-- Step 1 -->
+                <div class="card p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-fefcbf mb-4">1. Awakening the AI Muse (25 mins)</h3>
+                    <p class="mb-4">Begin your adventure by discovering AI as a magical companion. Learn the art of prompting, cast your first spell with Grok 3, and uncover the difference between vague wishes and luminous instructions.</p>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>Storytelling: AI as a genie awaiting your command.</li>
+                        <li>Live Demo: Watch “Describe a starry night” come alive.</li>
+                        <li>Hands-On: Craft prompts like “What is the moon made of?”</li>
+                    </ul>
+                </div>
+                <!-- Step 2 -->
+                <div class="card p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-fefcbf mb-4">2. Weaving Precise Incantations (30 mins)</h3>
+                    <p class="mb-4">Master the alchemy of clear prompts using the formula: Task + Context + Details. Transform vague requests into radiant spells that summon precise AI responses.</p>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>Mini-Tale: Learn from a traveler’s vague vs. clear prompt.</li>
+                        <li>Transform: Rewrite “Talk about animals” into a masterpiece.</li>
+                        <li>Craft: Create prompts for recipes or explanations.</li>
+                    </ul>
+                </div>
+                <!-- Interlude -->
+                <div class="text-center italic text-lg">A 5-Minute Interlude: Pause to sip starlight and let your mind soar.</div>
+                <!-- Step 3 -->
+                <div class="card p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-fefcbf mb-4">3. Infusing Soul: Context & Tone (25 mins)</h3>
+                    <p class="mb-4">Breathe life into your prompts with rich context and enchanting tones. Paint AI’s words with whimsy, wisdom, or wonder, tailoring responses to your heart’s desire.</p>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>Story of Voice: Compare a poet’s vs. architect’s castle.</li>
+                        <li>Tone Alchemy: Craft “Describe a waterfall” in two tones.</li>
+                        <li>Reflect: See how tone shapes AI’s magic.</li>
+                    </ul>
+                </div>
+                <!-- Step 4 -->
+                <div class="card p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-fefcbf mb-4">4. Conjuring Dreams & Solutions (25 mins)</h3>
+                    <p class="mb-4">Unleash AI’s power for creativity and practicality. Spin tales, spark ideas, or solve problems with prompts that dance with constraints and purpose.</p>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>Tale of Two Paths: Craft stories or plans with precision.</li>
+                        <li>Dual Creations: Write a poem and a study plan.</li>
+                        <li>Share: Celebrate your AI’s creations.</li>
+                    </ul>
+                </div>
+                <!-- Step 5 -->
+                <div class="card p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold text-fefcbf mb-4">5. Polishing the Spell: Refining & Finale (30 mins)</h3>
+                    <p class="mb-4">Perfect your craft by refining prompts for flawless results. Create a final masterpiece—a story, plan, or speech—to crown your journey.</p>
+                    <ul class="list-disc list-inside text-sm">
+                        <li>Refiner’s Tale: Hone a stray prompt to brilliance.</li>
+                        <li>Polish: Improve an earlier prompt and test it.</li>
+                        <li>Masterpiece: Craft a real-world prompt to shine.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="enroll" class="py-20 text-center bg-gradient-to-b from-gray-900 to-blue-900">
+        <h2 class="section-title text-4xl mb-6">Ready to Wield the Power of AI?</h2>
+        <p class="text-lg mb-8 max-w-2xl mx-auto">Join our 2-hour masterclass and become a master of AI prompting. No experience needed—just a spark of curiosity. Contact us today to secure your spot and let your words weave magic!</p>
+        <div class="flex justify-center gap-4">
+            <a href="https://wa.me/2349160209951?text=I'm%20interested%20in%20the%20AI%20Prompting%20Masterclass!" target="_blank" class="btn-whatsapp text-lg font-semibold py-3 px-8 rounded-full shadow-lg">Chat on WhatsApp</a>
+            <a href="#" class="btn-glow text-lg font-semibold py-3 px-8 rounded-full shadow-lg">Enroll Today!</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center bg-gray-800">
+        <p class="text-sm mb-2">© 2025 AI Prompting Academy. Crafted with ✨ by Dreamers.</p>
+        <p class="text-sm">Have questions? Reach out on WhatsApp: <a href="https://wa.me/2349160209951?text=I'm%20interested%20in%20the%20AI%20Prompting%20Masterclass!" target="_blank" class="underline text-fefcbf">+2349160209951</a></p>
+    </footer>
+
+    <!-- JavaScript for Stars Animation -->
+    <script>
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starsContainer.appendChild(star);
+        }
+    </script>
 </body>
-</html>
+  </html>
